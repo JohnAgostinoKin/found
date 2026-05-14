@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Found — Finally find your people</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:      #080612;
+    --surface: #0F0B1E;
+    --card:    #13102A;
+    --violet:  #7B6FD4;
+    --vbright: #9B8FE0;
+    --teal:    #00C9B4;
+    --gold:    #F4C842;
+    --muted:   #8B84B8;
+    --dim:     #6058A0;
+    --text:    #EDE9FF;
+    --sub:     #C4BFEA;
+    --border:  rgba(123,111,212,0.18);
+    --borderb: rgba(123,111,212,0.35);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 2.5rem;
+    background: rgba(8,6,18,0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+  .nav-r { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-a { font-size: 0.85rem; color: var(--sub); text-decoration: none; transition: color .2s; }
+  .nav-a:hover { color: var(--text); }
+  .nav-btn {
+    background: var(--violet); color: #fff; border: none; border-radius: 100px;
+    padding: .52rem 1.3rem; font-family: 'DM Sans', sans-serif; font-size: .85rem;
+    font-weight: 500; cursor: pointer; transition: background .2s, transform .15s;
+  }
+  .nav-btn:hover { background: var(--vbright); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 1.5rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 25%, rgba(123,111,212,.22) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 50% at 85% 75%, rgba(0,201,180,.14) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 35% at 55% 10%, rgba(244,200,66,.06) 0%, transparent 60%);
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 8%,  rgba(255,255,255,.2)  0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 15%, rgba(255,255,255,.28) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 25%, rgba(255,255,255,.18) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 12%, rgba(255,255,255,.22) 0%, transparent 100%),
+      radial-gradient(1px 1px at 8%  60%, rgba(255,255,255,.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 72%, rgba(255,255,255,.2)  0%, transparent 100%),
+      radial-gradient(1px 1px at 72% 55%, rgba(255,255,255,.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 28% 85%, rgba(255,255,255,.18) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 80%, rgba(255,255,255,.22) 0%, transparent 100%);
+  }
+  .orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(60px); }
+  .o1 { width:500px; height:500px; top:-120px; right:-80px; background:rgba(123,111,212,.12); animation:d1 20s ease-in-out infinite; }
+  .o2 { width:360px; height:360px; bottom:0; left:-80px; background:rgba(0,201,180,.09); animation:d2 25s ease-in-out infinite; }
+  .o3 { width:220px; height:220px; top:40%; right:10%; background:rgba(155,143,224,.1); animation:d3 16s ease-in-out infinite; }
+  @keyframes d1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-35px,45px)} }
+  @keyframes d2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(25px,-35px)} }
+  @keyframes d3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-18px,22px) scale(.92)} }
+
+  .hero-c { position: relative; z-index: 1; max-width: 800px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--teal); border: 1px solid rgba(0,201,180,.3); border-radius: 100px;
+    padding: .3rem 1rem; margin-bottom: 2.2rem;
+    animation: fu .9s ease both;
+  }
+  .edot { width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.4rem,8.5vw,6.5rem);
+    font-weight: 700; line-height: 1.04; letter-spacing: -.03em;
+    color: var(--text); margin-bottom: 1.6rem;
+    animation: fu .9s .1s ease both;
+  }
+  h1 em { font-style: italic; color: var(--vbright); }
+  .hsub {
+    font-size: clamp(1rem,2.2vw,1.2rem); color: var(--sub); line-height: 1.75;
+    max-width: 540px; margin: 0 auto 2.8rem; font-weight: 300;
+    animation: fu .9s .2s ease both;
+  }
+  .hform { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; animation: fu .9s .3s ease both; }
+  .einput {
+    border: 1px solid var(--borderb); border-radius: 100px;
+    padding: .85rem 1.5rem; font-family: 'DM Sans', sans-serif; font-size: .95rem;
+    background: rgba(123,111,212,.08); color: var(--text); outline: none; width: 290px;
+    transition: border-color .2s, background .2s;
+  }
+  .einput::placeholder { color: var(--muted); }
+  .einput:focus { border-color: var(--violet); background: rgba(123,111,212,.13); }
+  .sbtn {
+    background: var(--violet); color: #fff; border: none; border-radius: 100px;
+    padding: .85rem 1.9rem; font-family: 'DM Sans', sans-serif; font-size: .95rem;
+    font-weight: 500; cursor: pointer; transition: background .2s, transform .15s; white-space: nowrap;
+  }
+  .sbtn:hover { background: var(--vbright); transform: translateY(-1px); }
+  .smsg { display:none; color:var(--teal); font-size:.9rem; font-weight:500; margin-top:1rem; animation:fu .4s ease both; }
+  .proof { margin-top:1.6rem; font-size:.82rem; color:var(--muted); animation:fu .9s .4s ease both; }
+  .proof strong { color: var(--sub); }
+  @keyframes fu { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+  /* STATS */
+  .stats {
+    border-top: .5px solid var(--border); border-bottom: .5px solid var(--border);
+    background: var(--surface); display: flex; justify-content: center; overflow: hidden;
+  }
+  .stat {
+    flex:1; max-width:260px; text-align:center; padding:2.2rem 1.5rem;
+    border-right:.5px solid var(--border); transition:background .2s;
+  }
+  .stat:last-child { border-right: none; }
+  .stat:hover { background: rgba(123,111,212,.06); }
+  .snum { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:700; color:var(--vbright); line-height:1; margin-bottom:.45rem; }
+  .slbl { font-size:.8rem; color:var(--muted); line-height:1.55; font-weight:300; }
+
+  /* SECTION */
+  .sec { padding: 7rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .seyebrow { font-size:.7rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); margin-bottom:.8rem; }
+  h2 {
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem);
+    font-weight: 700; letter-spacing: -.025em; line-height: 1.12;
+    color: var(--text); margin-bottom: 1rem; max-width: 580px;
+  }
+  .ssub { font-size:1rem; color:var(--sub); line-height:1.75; max-width:500px; margin-bottom:3.5rem; font-weight:300; }
+
+  /* STEPS */
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+    gap: 1px; background: var(--border); border: .5px solid var(--border);
+    border-radius: 18px; overflow: hidden;
+  }
+  .step { background:var(--surface); padding:2rem 1.75rem; transition:background .2s; }
+  .step:hover { background: var(--card); }
+  .sn { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:700; color:var(--dim); line-height:1; margin-bottom:1.1rem; }
+  .st { font-size:.95rem; font-weight:500; color:var(--text); margin-bottom:.55rem; }
+  .sd { font-size:.83rem; color:var(--sub); line-height:1.65; font-weight:300; }
+
+  /* TESTIMONIALS */
+  .tsec {
+    background:var(--surface); border-top:.5px solid var(--border); border-bottom:.5px solid var(--border);
+    padding:7rem 1.5rem; position:relative; overflow:hidden;
+  }
+  .tsec::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse 60% 80% at 10% 50%,rgba(123,111,212,.12) 0%,transparent 70%),
+                radial-gradient(ellipse 50% 70% at 90% 40%,rgba(0,201,180,.07) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .tin { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+  .tgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:16px; margin-top:3rem; }
+  .tcard {
+    background:rgba(123,111,212,.07); border:1px solid var(--border); border-radius:16px;
+    padding:1.9rem; transition:border-color .2s,background .2s;
+  }
+  .tcard:hover { border-color:var(--borderb); background:rgba(123,111,212,.11); }
+  .tstars { color:var(--gold); font-size:.85rem; letter-spacing:2px; margin-bottom:1rem; }
+  .tq { font-family:'Playfair Display',serif; font-size:1.05rem; font-style:italic; color:var(--text); line-height:1.65; margin-bottom:1.3rem; }
+  .ta { font-size:.8rem; color:var(--muted); font-weight:500; }
+
+  /* WHY */
+  .wgrid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:1px; background:var(--border); border:.5px solid var(--border);
+    border-radius:18px; overflow:hidden; margin-top:3rem;
+  }
+  .wi { background:var(--surface); padding:2rem 1.75rem; transition:background .2s; }
+  .wi:hover { background: var(--card); }
+  .wacc { width:32px; height:3px; border-radius:2px; background:var(--violet); margin-bottom:1.1rem; }
+  .wt { font-size:.95rem; font-weight:500; color:var(--text); margin-bottom:.5rem; }
+  .wd { font-size:.83rem; color:var(--sub); line-height:1.65; font-weight:300; }
+
+  /* PRESS */
+  .press { padding:4rem 1.5rem; text-align:center; border-top:.5px solid var(--border); }
+  .plbl { font-size:.7rem; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-bottom:2rem; }
+  .prow { display:flex; align-items:center; justify-content:center; gap:3rem; flex-wrap:wrap; }
+  .pi { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--dim); transition:color .2s; cursor:default; }
+  .pi:hover { color: var(--sub); }
+
+  /* CTA */
+  .ctasec { padding:8rem 1.5rem; text-align:center; position:relative; overflow:hidden; }
+  .ctasec::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse 55% 65% at 50% 60%,rgba(123,111,212,.2) 0%,transparent 70%),
+                radial-gradient(ellipse 35% 45% at 20% 20%,rgba(0,201,180,.08) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .ctac { position:relative; z-index:1; max-width:620px; margin:0 auto; }
+  .ctat {
+    font-family:'Playfair Display',serif; font-size:clamp(2.6rem,6vw,4.5rem); font-weight:700;
+    color:var(--text); letter-spacing:-.03em; line-height:1.08; margin-bottom:1.1rem;
+  }
+  .ctat em { font-style:italic; color:var(--vbright); }
+  .ctasub { font-size:1rem; color:var(--sub); margin:0 auto 2.8rem; line-height:1.7; font-weight:300; max-width:480px; }
+  .ctaform { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .ctai {
+    border:1px solid var(--borderb); border-radius:100px; padding:.9rem 1.5rem;
+    font-family:'DM Sans',sans-serif; font-size:.95rem; background:rgba(123,111,212,.1);
+    color:var(--text); outline:none; width:290px; transition:border-color .2s,background .2s;
+  }
+  .ctai::placeholder { color:var(--muted); }
+  .ctai:focus { border-color:var(--vbright); background:rgba(123,111,212,.16); }
+  .ctab {
+    background:var(--teal); color:var(--bg); border:none; border-radius:100px;
+    padding:.9rem 1.9rem; font-family:'DM Sans',sans-serif; font-size:.95rem; font-weight:500;
+    cursor:pointer; transition:opacity .2s,transform .15s;
+  }
+  .ctab:hover { opacity:.85; transform:translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    background:var(--surface); border-top:.5px solid var(--border);
+    padding:2rem 2.5rem; display:flex; align-items:center;
+    justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  }
+  .flogo { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--dim); }
+  .flinks { display:flex; gap:1.5rem; }
+  .flinks a { font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+  .flinks a:hover { color:var(--sub); }
+  .fcopy { font-size:.78rem; color:var(--dim); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">found</div>
+  <div class="nav-r">
+    <a class="nav-a" href="#how">How it works</a>
+    <a class="nav-a" href="#why">Why now</a>
+    <button class="nav-btn" onclick="document.getElementById('he').focus()">Get early access</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="hero-c">
+    <div class="eyebrow"><span class="edot"></span>Early access now open</div>
+    <h1>You haven't met<br>your <em>people</em> yet.</h1>
+    <p class="hsub">Found is an AI-powered social concierge designed to help adults turn compatible strangers into real-world friend groups — without the swiping, awkward group chats, or endless planning.</p>
+    <div class="hform">
+      <input id="he" class="einput" type="email" placeholder="your@email.com">
+      <button class="sbtn" onclick="join('he','hs')">Join the waitlist</button>
+    </div>
+    <div id="hs" class="smsg">You're on the list. We'll be in touch.</div>
+    <p class="proof"><strong>Launching city by city</strong> — starting with Austin, Denver &amp; Brooklyn.</p>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="snum">01</div><div class="slbl">A clear pain: adult friendship is harder to form than it used to be.</div></div>
+  <div class="stat"><div class="snum">02</div><div class="slbl">A focused wedge: small, curated groups in high-density launch cities.</div></div>
+  <div class="stat"><div class="snum">03</div><div class="slbl">A useful AI layer: matching, planning prompts, reminders, and follow-up.</div></div>
+  <div class="stat"><div class="snum">04</div><div class="slbl">A scalable model: memberships, premium concierge, and venue partnerships.</div></div>
+</div>
+
+<section class="sec" id="how">
+  <div class="seyebrow">How it works</div>
+  <h2>Your AI social concierge makes meeting feel easier.</h2>
+  <p class="ssub">Real friendship is built through repeated, low-stakes, shared experiences. Found is designed to reduce the friction that keeps those moments from happening.</p>
+  <div class="steps">
+    <div class="step"><div class="sn">01</div><div class="st">Tell Found who you are</div><div class="sd">A short conversational onboarding learns your personality, energy, interests, schedule, and the kinds of people you usually click with.</div></div>
+    <div class="step"><div class="sn">02</div><div class="st">Found suggests your group</div><div class="sd">Found uses compatibility signals to create small groups with shared context, complementary personalities, and a real chance of clicking offline.</div></div>
+    <div class="step"><div class="sn">03</div><div class="st">Make the first plan</div><div class="sd">Found can suggest the venue, timing, format, and icebreaker context so the first hangout feels simple instead of awkward.</div></div>
+    <div class="step"><div class="sn">04</div><div class="st">Keep the cadence</div><div class="sd">After each meetup, Found nudges the group toward the next low-stakes plan — helping acquaintances build the repetition that friendship needs.</div></div>
+    <div class="step"><div class="sn">05</div><div class="st">The group takes over</div><div class="sd">As the group gets comfortable, Found becomes less central. The goal is not more app time. The goal is real people making real plans.</div></div>
+  </div>
+</section>
+
+<div class="tsec">
+  <div class="tin">
+    <div class="seyebrow">What we are testing</div>
+    <h2>Early access will validate the moments that matter.</h2>
+    <div class="tgrid">
+      <div class="tcard"><div class="tstars">01</div><div class="tq">Can AI create small groups that feel meaningfully compatible, not just demographically similar?</div><div class="ta">Matching quality</div></div>
+      <div class="tcard"><div class="tstars">02</div><div class="tq">Can Found reduce the awkward planning friction that usually keeps new friendships from moving offline?</div><div class="ta">Real-world conversion</div></div>
+      <div class="tcard"><div class="tstars">03</div><div class="tq">Can repeated, low-pressure gatherings help a group become self-sustaining without relying on the app forever?</div><div class="ta">Retention through real connection</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="sec" id="why">
+  <div class="seyebrow">Why now</div>
+  <h2>The old friendship infrastructure is fraying. Found is a new layer for real life.</h2>
+  <p class="ssub">Work, school, neighborhoods, and nightlife do not automatically create durable friendships for many adults anymore. Found gives that process structure.</p>
+  <div class="wgrid">
+    <div class="wi"><div class="wacc"></div><div class="wt">AI can coordinate the messy parts</div><div class="wd">Matching, reminders, preferences, context, and follow-up are exactly the kinds of repeated coordination tasks AI can make easier.</div></div>
+    <div class="wi"><div class="wacc" style="background:var(--teal)"></div><div class="wt">Remote and hybrid life changed habits</div><div class="wd">Fewer casual daily encounters means fewer accidental friendships. Found is built for intentional, real-world connection.</div></div>
+    <div class="wi"><div class="wacc" style="background:var(--vbright)"></div><div class="wt">Meeting through software feels normal</div><div class="wd">People already use apps to meet dates, colleagues, communities, and activity partners. Friendship is the next obvious use case.</div></div>
+    <div class="wi"><div class="wacc" style="background:var(--gold)"></div><div class="wt">Low-pressure plans matter</div><div class="wd">The best gatherings do not need to be expensive or elaborate. Found can steer groups toward simple, repeatable ways to meet.</div></div>
+  </div>
+</section>
+
+<div class="press">
+  <div class="plbl">Investor thesis</div>
+  <div class="prow">
+    <span class="pi">City-by-city density</span>
+    <span class="pi">Curated small groups</span>
+    <span class="pi">AI-assisted planning</span>
+    <span class="pi">Venue partnerships</span>
+    <span class="pi">Membership potential</span>
+  </div>
+</div>
+
+<section class="ctasec">
+  <div class="ctac">
+    <div class="ctat">You deserve to be <em>found.</em></div>
+    <p class="ctasub">We are building the first version for a small number of launch cities. Join early access and help shape how Found brings people together in real life.</p>
+    <div class="ctaform">
+      <input id="ce" class="ctai" type="email" placeholder="your@email.com">
+      <button class="ctab" onclick="join('ce','cs')">Reserve my spot</button>
+    </div>
+    <div id="cs" class="smsg" style="color:var(--teal)">You're in. Watch your inbox.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">found</div>
+  <div class="flinks">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="mailto:hello@imfound.app">hello@imfound.app</a>
+  </div>
+  <div class="fcopy">© 2026 Found. All rights reserved.</div>
+</footer>
+
+<script>
+function join(inp, out) {
+  const el = document.getElementById(inp);
+  const ok = document.getElementById(out);
+  if (!el.value || !el.value.includes('@')) {
+    el.style.borderColor = '#E24B4A';
+    setTimeout(() => el.style.borderColor = '', 1200);
+    return;
+  }
+  el.style.display = 'none';
+  const btn = el.nextElementSibling;
+  if (btn) btn.style.display = 'none';
+  ok.style.display = 'block';
+}
+</script>
+</body>
+</html>
