@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 
 const thesisChips = [
   "IRL-First Product",
@@ -140,13 +140,13 @@ function Nav({ go }) {
         <img className="brand-icon" src="/found-icon.svg" alt="" aria-hidden="true" />
         <span className="brand-word">found</span>
         <span className="brand-divider" aria-hidden="true" />
-        <span className="brand-tagline">Find Real Life Friendships</span>
+        <span className="brand-tagline">Find Real-Life Friends</span>
       </button>
       <div className="nav-r">
-        <button className="nav-a hide-sm button-reset" onClick={() => go("/#irl")}>Real-life Thesis</button>
-        <button className="nav-a hide-sm button-reset" onClick={() => go("/#how")}>How it works</button>
+        <button className="nav-a hide-sm button-reset" onClick={() => go("/#irl")}>Real-Life Thesis</button>
+        <button className="nav-a hide-sm button-reset" onClick={() => go("/#how")}>How It Works</button>
         <button className="nav-a hide-sm button-reset" onClick={() => go("/investors")}>Investors</button>
-        <button className="nav-btn" onClick={() => go("/#join")}>Get early access</button>
+        <button className="nav-btn" onClick={() => go("/#join")}>Get Early Access</button>
       </div>
     </nav>
   );
@@ -163,7 +163,7 @@ function Footer({ go }) {
           <button className="button-reset" onClick={() => go("/investors")}>Investors</button>
           <a href="https://www.bonzoli.com" target="_blank" rel="noopener noreferrer">Bonzoli Technology Group</a>
         </div>
-        <div className="fcopy">&copy; 2026 Found. Bonzoli Technology Group concept. All rights reserved.</div>
+        <div className="fcopy">&copy; 2026 Found | A Bonzoli Technology Group Concept. All Rights Reserved.</div>
       </div>
     </footer>
   );
@@ -198,7 +198,7 @@ function WaitlistForm({ compact = false }) {
         style={error ? { borderColor: "var(--danger)" } : undefined}
       />
       <button className={compact ? "ctab" : "sbtn"} onClick={submit}>
-        {compact ? "Reserve my spot" : "Join the waitlist"}
+        {compact ? "Reserve My Spot" : "Join The Waitlist"}
       </button>
     </div>
   );
@@ -407,7 +407,7 @@ export default function App() {
   }, [path, go]);
 
   useEffect(() => {
-    document.title = "Found | Find Real Life Friendships";
+    document.title = "Found | Find Real Life Friends";
   }, []);
 
   return (
@@ -418,3 +418,4 @@ export default function App() {
     </div>
   );
 }
+
