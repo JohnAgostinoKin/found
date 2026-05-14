@@ -1095,5 +1095,33 @@ p,
     transform: translateY(1px) !important;
     min-height: 34px !important;
   }
+}/* Footer final polish */
+.footer-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  text-decoration: none !important;
+  color: var(--text) !important;
+}
+
+.footer-icon {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px !important;
+}
+
+.fcopy {
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+  margin-top: 0.65rem !important;
+}
+
+.footer-right {
+  text-align: center !important;
+}
+
+.flinks {
+  justify-content: center !important;
 }
 
