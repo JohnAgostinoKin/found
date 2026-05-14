@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" fill="#1A0F3C" rx="22"/>
+  <!-- two overlapping circles -->
+  <circle cx="38" cy="50" r="18" fill="none" stroke="#9B8FE0" stroke-width="3"/>
+  <circle cx="56" cy="50" r="18" fill="none" stroke="#00C9B4" stroke-width="3"/>
+  <path d="M47 33.2 Q56 32 62.5 37 Q68 43 68 50 Q68 57 62.5 63 Q56 68 47 66.8 Q41 62 41 50 Q41 38 47 33.2Z" fill="#9B8FE0" opacity="0.25"/>
+</svg>
