@@ -155,10 +155,7 @@ function Nav({ go }) {
 function Footer({ go }) {
   return (
     <footer>
-     <a className="footer-brand" href="/">
-  <img src="/found-icon.svg" alt="Found icon" className="footer-icon" />
-  <span>found</span>
-</a>
+      <button className="flogo button-reset" onClick={() => go("/")}>found</button>
       <div className="footer-right">
         <div className="flinks">
           <button className="button-reset" onClick={() => go("/privacy")}>Privacy</button>
@@ -184,7 +181,7 @@ function WaitlistForm({ compact = false }) {
       return;
     }
     setJoined(true);
-  }f
+  }
 
   if (joined) {
     return <div className="smsg visible">You're on the list. We'll be in touch.</div>;
