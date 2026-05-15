@@ -134,19 +134,42 @@ function useRoute() {
 }
 
 function Nav({ go }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  function navigate(href) {
+    setMenuOpen(false);
+    go(href);
+  }
+
   return (
-    <nav>
-      <button className="brand button-reset" onClick={() => go("/")} aria-label="Found home">
+    <nav className="site-nav">
+      <button className="brand button-reset" onClick={() => navigate("/")} aria-label="Found home">
         <img className="brand-icon" src="/found-icon.svg" alt="" aria-hidden="true" />
-        <span className="brand-word">found</span>
+        <span className="brand-lockup">
+          <span className="brand-word">found</span>
+          <span className="brand-mobile-tagline">Find Real Life Friends</span>
+        </span>
         <span className="brand-divider" aria-hidden="true" />
-        <span className="brand-tagline">Find Real-Life Friends</span>
+        <span className="brand-tagline">Find Real Life Friends</span>
       </button>
-      <div className="nav-r">
-        <button className="nav-a hide-sm button-reset" onClick={() => go("/#irl")}>Real-Life Thesis</button>
-        <button className="nav-a hide-sm button-reset" onClick={() => go("/#how")}>How It Works</button>
-        <button className="nav-a hide-sm button-reset" onClick={() => go("/investors")}>Investors</button>
-        <button className="nav-btn" onClick={() => go("/#join")}>Get Early Access</button>
+
+      <button
+        className="hamburger-toggle button-reset"
+        type="button"
+        aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
+      </button>
+
+      <div className={menuOpen ? "nav-r nav-open" : "nav-r"}>
+        <button className="nav-a button-reset" onClick={() => navigate("/#irl")}>Real-life Thesis</button>
+        <button className="nav-a button-reset" onClick={() => navigate("/#how")}>How it works</button>
+        <button className="nav-a button-reset" onClick={() => navigate("/investors")}>Investors</button>
+        <button className="nav-btn" onClick={() => navigate("/#join")}>Get early access</button>
       </div>
     </nav>
   );
