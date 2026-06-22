@@ -1,4 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
+import { supabase } from "./supabaseClient";
 
 const thesisChips = [
   "IRL-First Product",
@@ -195,19 +196,50 @@ function Footer({ go }) {
 function WaitlistForm({ compact = false }) {
   const [email, setEmail] = useState("");
   const [joined, setJoined] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
 
-  function submit() {
+  async function submit() {
     if (!email || !email.includes("@")) {
       setError(true);
       window.setTimeout(() => setError(false), 1200);
       return;
     }
+
+    if (!supabase) {
+      setJoined(true);
+      return;
+    }
+
+    setSubmitting(true);
+
+    const { error: dbError } = await supabase.from("waitlist").insert({
+      email,
+      source: "found",
+    });
+
+    setSubmitting(false);
+
+    if (dbError) {
+      if (dbError.code === "23505") {
+        setDuplicate(true);
+      } else {
+        setError(true);
+        window.setTimeout(() => setError(false), 1200);
+      }
+      return;
+    }
+
     setJoined(true);
   }
 
   if (joined) {
     return <div className="smsg visible">You're on the list. We'll be in touch.</div>;
+  }
+
+  if (duplicate) {
+    return <div className="smsg visible">You're already on the list. We'll be in touch.</div>;
   }
 
   return (
@@ -220,8 +252,8 @@ function WaitlistForm({ compact = false }) {
         onChange={(event) => setEmail(event.target.value)}
         style={error ? { borderColor: "var(--danger)" } : undefined}
       />
-      <button className={compact ? "ctab" : "sbtn"} onClick={submit}>
-        {compact ? "Reserve My Spot" : "Join The Waitlist"}
+      <button className={compact ? "ctab" : "sbtn"} onClick={submit} disabled={submitting}>
+        {submitting ? "Joining..." : compact ? "Reserve My Spot" : "Join The Waitlist"}
       </button>
     </div>
   );
