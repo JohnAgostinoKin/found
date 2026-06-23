@@ -232,6 +232,7 @@ function WaitlistForm({ compact = false }) {
     }
 
     setJoined(true);
+    if (window.fbq) fbq('track', 'Lead');
   }
 
   if (joined) {
